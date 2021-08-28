@@ -1,6 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace'
+make: Nothing to be done for 'all'.
 make: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace'
- 
-make: *** No targets.  Stop.
  

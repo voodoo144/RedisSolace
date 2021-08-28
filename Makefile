@@ -1,6 +1,6 @@
 #set environment variable RM_INCLUDE_DIR to the location of redismodule.h
 ifndef RM_INCLUDE_DIR
-	RM_INCLUDE_DIR=./
+	RM_INCLUDE_DIR=src/redismodule/6.2/
 endif
 
 ifndef RMUTIL_LIBDIR
@@ -8,7 +8,7 @@ ifndef RMUTIL_LIBDIR
 endif
 
 ifndef SRC_DIR
-	SRC_DIR=src
+	SRC_DIR=src/redissolace
 endif
 
 
@@ -24,6 +24,6 @@ clean: FORCE
 	rm -rf ./$(RMUTIL_LIBDIR)/*.so ./$(RMUTIL_LIBDIR)/*.o ./$(RMUTIL_LIBDIR)/*.a
 
 run:
-	redis-server --loadmodule ./redissolace.so
+	redis-server --loadmodule ./module.so
 
 FORCE:

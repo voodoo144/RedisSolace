@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
- 
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Aug 24 20:28:56 2021
+# Make data base, printed on Fri Aug 27 20:47:27 2021
 
 # Variables
 
@@ -57,7 +55,7 @@ PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-07b98255-f8fe-4f51-9865-3da1d1cda777.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2866d25f-4335-4d5b-8d4e-60c69256a199.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -66,6 +64,8 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 %F = $(notdir $%)
 # environment
 VSCODE_PIPE_LOGGING = true
+# makefile (from 'Makefile', line 7)
+RMUTIL_LIBDIR = rmutil
 # environment
 PWD = /home/voodoo144/VSCODEPROJECTS/RedisSolace
 # default
@@ -99,7 +99,7 @@ MAKE_VERSION := 4.2.1
 # environment
 USER = voodoo144
 # makefile
-.DEFAULT_GOAL := 
+.DEFAULT_GOAL := all
 # environment
 NAME = DESKTOP-4STVP9K
 # automatic
@@ -122,8 +122,12 @@ MFLAGS = -pqrR
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
+# makefile (from 'Makefile', line 3)
+RM_INCLUDE_DIR = src/redismodule/6.2/
 # default
 MAKEFILES := 
+# makefile (from 'Makefile', line 11)
+SRC_DIR = src/redissolace
 # automatic
 <F = $(notdir $<)
 # environment
@@ -148,10 +152,8 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu-20.04
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=69/1024=7%, Rehash=0, Collisions=4/93=4%
+# Load=71/1024=7%, Rehash=0, Collisions=4/99=4%
 
 # Pattern-specific Variable Values
 
@@ -159,9 +161,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2064, inode 51346): 10 files, no impossibilities.
+# . (device 2064, inode 51346): 11 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -169,19 +171,33 @@ MOTD_SHOWN = update-motd
 
 # Files
 
-# Not a target:
-all:
+all: redissolace.so
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
+#  File has been updated.
+#  Successfully updated.
+
+FORCE:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-08-23 22:05:34.708
+#  Last modified 2021-08-27 20:45:40.64
 #  File has been updated.
 #  Successfully updated.
+
+redissolace.so:
+#  Implicit rule search has not been done.
+#  Last modified 2021-08-27 20:45:57.98
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 18):
+	$(MAKE) -C ./$(SRC_DIR)
+	cp ./$(SRC_DIR)/redissolace.so .
 
 # Not a target:
 .DEFAULT:
@@ -189,20 +205,36 @@ Makefile:
 #  Modification time never checked.
 #  File has not been updated.
 
+run:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 27):
+	redis-server --loadmodule ./module.so
+
+clean: FORCE
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 22):
+	rm -rf *.xo *.so *.o
+	rm -rf ./$(SRC_DIR)/*.xo ./$(SRC_DIR)/*.so ./$(SRC_DIR)/*.o
+	rm -rf ./$(RMUTIL_LIBDIR)/*.so ./$(RMUTIL_LIBDIR)/*.o ./$(RMUTIL_LIBDIR)/*.a
+
 # files hash-table stats:
-# Load=4/1024=0%, Rehash=0, Collisions=0/14=0%
+# Load=8/1024=1%, Rehash=0, Collisions=0/23=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 15 / storage = 119 B / avg = 7 B
-# current buf: size = 8162 B / used = 119 B / count = 15 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 150 B / avg = 7 B
+# current buf: size = 8162 B / used = 150 B / count = 19 / avg = 7 B
 
-# strcache performance: lookups = 19 / hit rate = 21%
+# strcache performance: lookups = 32 / hit rate = 40%
 # hash-table stats:
-# Load=15/8192=0%, Rehash=0, Collisions=1/19=5%
-# Finished Make data base on Tue Aug 24 20:28:56 2021
+# Load=19/8192=0%, Rehash=0, Collisions=1/32=3%
+# Finished Make data base on Fri Aug 27 20:47:27 2021
 
  
