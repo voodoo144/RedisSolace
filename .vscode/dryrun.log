@@ -1,5 +1,25 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace'
-make: Nothing to be done for 'all'.
+make -C ./src/redissolace
+make[1]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
+make -C ../rmutil
+ 
+make[2]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o util.o util.c
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o strings.o strings.c
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o sds.o sds.c
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o vector.o vector.c
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o alloc.o alloc.c
+gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o periodic.o periodic.c
+ar rcs librmutil.a util.o strings.o sds.o vector.o alloc.o periodic.o
+make[2]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
+ 
+gcc -I../redismodule/6.2/ -Wall -g -fPIC -lc -lm -std=gnu99     -c -o redissolace.o redissolace.c
+ 
+ld -o redissolace.so redissolace.o -shared -Bsymbolic  -L../rmutil -lrmutil -lc 
+make[1]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
+ 
+cp ./src/redissolace/redissolace.so .
+ 
 make: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace'
  
