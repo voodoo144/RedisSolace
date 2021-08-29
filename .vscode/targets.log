@@ -11,11 +11,8 @@ make -C ../rmutil
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
-make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
- 
 
-# Make data base, printed on Fri Aug 27 20:54:45 2021
+# Make data base, printed on Sun Aug 29 11:47:56 2021
 
 # Variables
 
@@ -68,7 +65,7 @@ PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2866d25f-4335-4d5b-8d4e-60c69256a199.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -161,8 +158,10 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu-20.04
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=7/103=7%
+# Load=72/1024=7%, Rehash=0, Collisions=7/104=7%
 
 # Pattern-specific Variable Values
 
@@ -282,6 +281,10 @@ strings.o:
 # Not a target:
 util.o:
 #  Implicit rule search has been done.
+ 
+make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
+make[1]: *** [Makefile:27: rmutil] Error 2
+ 
 #  File does not exist.
 #  File has not been updated.
 
@@ -299,14 +302,13 @@ alloc.o:
 
 # No general ('VPATH' variable) search path.
 
- 
 # strcache buffers: 1 (0) / strings = 47 / storage = 470 B / avg = 10 B
 # current buf: size = 8162 B / used = 470 B / count = 47 / avg = 10 B
 
 # strcache performance: lookups = 69 / hit rate = 31%
 # hash-table stats:
 # Load=47/8192=1%, Rehash=0, Collisions=1/69=1%
-# Finished Make data base on Fri Aug 27 20:54:45 2021
+# Finished Make data base on Sun Aug 29 11:47:56 2021
 
 # make[2]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
 # GNU Make 4.2.1
@@ -316,7 +318,7 @@ alloc.o:
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Aug 27 20:54:45 2021
+# Make data base, printed on Sun Aug 29 11:47:56 2021
 
 # Variables
 
@@ -367,7 +369,7 @@ PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2866d25f-4335-4d5b-8d4e-60c69256a199.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -387,9 +389,6 @@ PWD = /home/voodoo144/VSCODEPROJECTS/RedisSolace
 # makefile (from 'Makefile', line 11)
 uname_S := Linux
 # environment
- 
-make[1]: *** [Makefile:27: rmutil] Error 2
- 
 WSL_INTEROP = /run/WSL/13_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
@@ -473,8 +472,10 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu-20.04
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=75/1024=7%, Rehash=0, Collisions=5/116=4%
+# Load=76/1024=7%, Rehash=0, Collisions=5/117=4%
 
 # Pattern-specific Variable Values
 
@@ -564,6 +565,7 @@ redissolace.so: redissolace.o
 #  Modification time never checked.
 #  File has not been updated.
 
+ 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -585,7 +587,7 @@ clean:
 # strcache performance: lookups = 28 / hit rate = 42%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=1/28=4%
-# Finished Make data base on Fri Aug 27 20:54:45 2021
+# Finished Make data base on Sun Aug 29 11:47:56 2021
 
 # make[1]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
  
@@ -598,7 +600,7 @@ make: *** [Makefile:18: redissolace.so] Error 2
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Aug 27 20:54:45 2021
+# Make data base, printed on Sun Aug 29 11:47:56 2021
 
 # Variables
 
@@ -647,7 +649,7 @@ PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2866d25f-4335-4d5b-8d4e-60c69256a199.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -744,8 +746,10 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu-20.04
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=4/106=4%
+# Load=72/1024=7%, Rehash=0, Collisions=4/107=4%
 
 # Pattern-specific Variable Values
 
@@ -812,7 +816,6 @@ redissolace.so:
 # automatic
 # ? := 
 # variable set hash-table stats:
- 
 # Load=8/32=25%, Rehash=0, Collisions=2/15=13%
 #  recipe to execute (from 'Makefile', line 18):
 	$(MAKE) -C ./$(SRC_DIR)
@@ -854,6 +857,6 @@ clean: FORCE
 # strcache performance: lookups = 32 / hit rate = 40%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=1/32=3%
-# Finished Make data base on Fri Aug 27 20:54:45 2021
+# Finished Make data base on Sun Aug 29 11:47:56 2021
 
  

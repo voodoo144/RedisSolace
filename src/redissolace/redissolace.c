@@ -6,6 +6,16 @@
 #include "../solclient/solClient.h"
 #include "../solclient/solClientMsg.h"
 
+void ParseModuleArgsAsStrings(RedisModuleString **argv, int argc, char *destArray)
+{
+    for (size_t i = 1; i < argc; i++)
+    {
+        char *tmp;
+        RMUtil_ParseArgs(argv, argc, i, "c", &tmp);
+        destArray[i - 1] = tmp;
+    }
+}
+
 /*****************************************************************************
  * sessionMessageReceiveCallback
  *
@@ -14,9 +24,19 @@
  *****************************************************************************/
 solClient_rxMsgCallback_returnCode_t sessionMessageReceiveCallback(solClient_opaqueSession_pt opaqueSession_p, solClient_opaqueMsg_pt msg_p, void *user_p)
 {
-    printf("Received message:\n");
-    solClient_msg_dump(msg_p, NULL, 0);
-    printf("\n");
+    char buffer[5000];
+    solClient_msg_dump(msg_p, buffer, 5000);
+
+    solClient_int64_t rxSeqNum;
+    const char     *senderId_p;
+
+    if ( solClient_msg_getSequenceNumber ( msg_p, &rxSeqNum ) != SOLCLIENT_OK ) {
+            rxSeqNum = 0;
+    }
+
+    if ( solClient_msg_getSenderId ( msg_p, &senderId_p ) != SOLCLIENT_OK ) {
+            senderId_p = "";
+    }
 
     return SOLCLIENT_CALLBACK_OK;
 }
@@ -29,6 +49,28 @@ solClient_rxMsgCallback_returnCode_t sessionMessageReceiveCallback(solClient_opa
 void sessionEventCallback(solClient_opaqueSession_pt opaqueSession_p,
                           solClient_session_eventCallbackInfo_pt eventInfo_p, void *user_p)
 {
+    solClient_errorInfo_pt errorInfo_p;
+
+    switch (eventInfo_p->sessionEvent)
+    {
+    case SOLCLIENT_SESSION_EVENT_UP_NOTICE:
+    case SOLCLIENT_SESSION_EVENT_ACKNOWLEDGEMENT:
+    case SOLCLIENT_SESSION_EVENT_TE_UNSUBSCRIBE_OK:
+    case SOLCLIENT_SESSION_EVENT_CAN_SEND:
+    case SOLCLIENT_SESSION_EVENT_RECONNECTING_NOTICE:
+    case SOLCLIENT_SESSION_EVENT_RECONNECTED_NOTICE:
+    case SOLCLIENT_SESSION_EVENT_PROVISION_OK:
+    case SOLCLIENT_SESSION_EVENT_SUBSCRIPTION_OK:
+    case SOLCLIENT_SESSION_EVENT_DOWN_ERROR:
+    case SOLCLIENT_SESSION_EVENT_CONNECT_FAILED_ERROR:
+    case SOLCLIENT_SESSION_EVENT_REJECTED_MSG_ERROR:
+    case SOLCLIENT_SESSION_EVENT_SUBSCRIPTION_ERROR:
+    case SOLCLIENT_SESSION_EVENT_RX_MSG_TOO_BIG_ERROR:
+    case SOLCLIENT_SESSION_EVENT_TE_UNSUBSCRIBE_ERROR:
+    case SOLCLIENT_SESSION_EVENT_PROVISION_ERROR:
+    default:
+        break;
+    }
 }
 
 solClient_returnCode_t SolaceInit()
@@ -83,11 +125,28 @@ solClient_returnCode_t SolaceSubscribe(char *topicName)
 
 int SolaceConfigureCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    SolaceConfigure();
-    RedisModule_ReplyWithSimpleString(ctx, "PASS");
+    if (argc < 3)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+    RedisModule_AutoMemory(ctx);
+    char *parsedArray[argc - 1];
+
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+
+    if (SolaceConfigure(parsedArray) == SOLCLIENT_FAIL)
+    {
+        RedisModule_ReplyWithError(ctx, "Could not configure solace connector");
+        return REDISMODULE_ERR;
+    }
+    RedisModule_ReplyWithSimpleString(ctx, "Solace client configured");
     return REDISMODULE_OK;
 }
 
+/*
+* solace.connect <name>
+* Connects to solace appliance and store this connection under <name>
+*/
 int SolaceConnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
     SolaceConnect();
@@ -95,6 +154,10 @@ int SolaceConnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc
     return REDISMODULE_OK;
 }
 
+/*
+ * solace.disconnect <name>
+ * Disconnects from connection stored under <name> 
+ */
 int SolaceDisconnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
     SolaceDisconnect();
@@ -102,23 +165,67 @@ int SolaceDisconnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int a
     return REDISMODULE_OK;
 }
 
+/*
+ * solace.send <topic> <message>
+ * Sends <message> via solace to topic <topic>
+ */
 int SolaceSendCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    SolaceSend();
+    if (argc < 3)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+
+    char *parsedArray[argc - 1];
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+
+    char *topicName = parsedArray[0];
+    char *message = parsedArray[1];
+
+    if (SolaceSend(topicName, message) == SOLCLIENT_FAIL)
+    {
+        RedisModule_ReplyWithError(ctx, "Could not send message to solace");
+        return REDISMODULE_ERR;
+    }
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
 
+/*
+* solace.subscribe <topic> <redis_key_pattern>
+* Subscribes to solace topic <topic> and listens to incoming messages
+* Every incoming message will be stored in redis as string with key <redis_key_pattern>.<>
+*/
 int SolaceSubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    SolaceSubscribe();
+    if (argc < 2)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+
+    RedisModule_AutoMemory(ctx);
+    char *parsedArray[argc - 1];
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+
+    char* topic = parsedArray[0];
+    SolaceSubscribe(topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
 
 int SolaceUnsubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    SolaceUnsubscribe();
+    if (argc < 2)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+
+    RedisModule_AutoMemory(ctx);
+    char *parsedArray[argc - 1];
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+    char* topic = parsedArray[0];
+
+    SolaceUnsubscribe(topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
@@ -133,8 +240,12 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx)
     {
         return REDISMODULE_ERR;
     }
+
     //init solace
-    SolaceInit();
+    if (SolaceInit() == SOLCLIENT_FAIL)
+    {
+        return REDISMODULE_ERR;
+    }
 
     // Solace configuration
     RMUtil_RegisterReadCmd(ctx, SOLACE_CONFIGURE_COMMAND, SolaceConfigureCommand);
