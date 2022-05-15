@@ -94,38 +94,82 @@ solClient_returnCode_t SolaceInit()
 /* Configure the Session properties. */
 solClient_returnCode_t SolaceConfigure(char *sessionProps[])
 {
-    return solClient_session_create((char **)sessionProps,
+    const char *connectionProps[50] = {0, };
+    int propIndex = 0;
+    char *connectionName,*username,*password,*vpnname,*host;
+
+    /* Configure the Session properties. */
+    propIndex = 0;
+    connectionName = sessionProps[1];
+    host = sessionProps[3];
+    vpnname = sessionProps[5];
+    username = sessionProps[7];
+    password =sessionProps[9];
+
+    connectionProps[propIndex++] = SOLCLIENT_SESSION_PROP_HOST;
+    connectionProps[propIndex++] = host;
+
+    connectionProps[propIndex++] = SOLCLIENT_SESSION_PROP_VPN_NAME;
+    connectionProps[propIndex++] = vpnname;
+
+    connectionProps[propIndex++] = SOLCLIENT_SESSION_PROP_USERNAME;
+    connectionProps[propIndex++] = username;
+
+    connectionProps[propIndex++] = SOLCLIENT_SESSION_PROP_PASSWORD;
+    connectionProps[propIndex++] = password;
+
+    connectionProps[propIndex++] = NULL;
+    return solClient_session_create((char **)connectionProps,
                                     context_p,
                                     &session_p, &sessionFuncInfo, sizeof(sessionFuncInfo));
 }
 
-solClient_returnCode_t SolaceDisconnect()
+solClient_returnCode_t SolaceDisconnect(char *connectionName)
 {
     return solClient_cleanup();
 }
 
-solClient_returnCode_t SolaceUnsubscribe(char *topicName)
+solClient_returnCode_t SolaceUnsubscribe(char *connectionNam, char *topicName)
 {
     return solClient_session_topicUnsubscribeExt(session_p,
                                                  SOLCLIENT_SUBSCRIBE_FLAGS_WAITFORCONFIRM,
                                                  topicName);
 }
 
-solClient_returnCode_t SolaceConnect()
+solClient_returnCode_t SolaceConnect(char *connectionNam)
 {
     return solClient_session_connect(session_p);
 }
 
-solClient_returnCode_t SolaceSubscribe(char *topicName)
+solClient_returnCode_t SolaceSubscribe(char *connectionNam, char *topicName)
 {
     return solClient_session_topicSubscribeExt(session_p,
                                                SOLCLIENT_SUBSCRIBE_FLAGS_WAITFORCONFIRM,
                                                topicName);
 }
 
+solClient_returnCode_t SolaceSend(char *connectionNam, char *topicName, char *message)
+{
+    solClient_opaqueMsg_pt msg_p = NULL;
+    solClient_destination_t destination;
+    solClient_msg_alloc ( &msg_p );
+    solClient_msg_setDeliveryMode ( msg_p, SOLCLIENT_DELIVERY_MODE_DIRECT );
+    destination.destType = SOLCLIENT_TOPIC_DESTINATION;
+    destination.dest = topicName;
+    solClient_msg_setDestination ( msg_p, &destination, sizeof ( destination ) );
+    solClient_msg_setBinaryAttachment ( msg_p, message, ( solClient_uint32_t ) strlen (message) );
+    solClient_returnCode_t statusCode = solClient_session_sendMsg ( session_p, msg_p );
+    solClient_msg_free ( &msg_p );
+    return statusCode;
+}
+
+/*
+* SOLACE.CONFIGURE <name> HOST <solace_host> VPN <solace_vpn> USERNAME <username> PASSWORD <passsword>
+* Configure connection to solace appliance 
+*/
 int SolaceConfigureCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    if (argc < 3)
+    if (argc < 10)
     {
         return RedisModule_WrongArity(ctx);
     }
@@ -144,45 +188,67 @@ int SolaceConfigureCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
 }
 
 /*
-* solace.connect <name>
-* Connects to solace appliance and store this connection under <name>
+* SOLACE.CONNECT <name>
+* Connects to solace appliance with configuration stored as <name>
 */
 int SolaceConnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    SolaceConnect();
-    RedisModule_ReplyWithSimpleString(ctx, "PASS");
-    return REDISMODULE_OK;
-}
-
-/*
- * solace.disconnect <name>
- * Disconnects from connection stored under <name> 
- */
-int SolaceDisconnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
-{
-    SolaceDisconnect();
-    RedisModule_ReplyWithSimpleString(ctx, "PASS");
-    return REDISMODULE_OK;
-}
-
-/*
- * solace.send <topic> <message>
- * Sends <message> via solace to topic <topic>
- */
-int SolaceSendCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
-{
-    if (argc < 3)
+    if (argc < 2)
     {
         return RedisModule_WrongArity(ctx);
     }
+    RedisModule_AutoMemory(ctx);
 
     char *parsedArray[argc - 1];
     ParseModuleArgsAsStrings(argv, argc, parsedArray);
 
-    char *topicName = parsedArray[0];
-    char *message = parsedArray[1];
+    char *connectionName = parsedArray[1];
 
-    if (SolaceSend(topicName, message) == SOLCLIENT_FAIL)
+    SolaceConnect(connectionName);
+    RedisModule_ReplyWithSimpleString(ctx, "PASS");
+    return REDISMODULE_OK;
+}
+
+/*
+ * SOLACE.DISCONNECT <name>
+ * Disconnects from connection stored under <name> 
+ */
+int SolaceDisconnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
+{   
+    if (argc < 2)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+    RedisModule_AutoMemory(ctx);
+    char *parsedArray[argc - 1];
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+
+    char *connectionName = parsedArray[1];
+
+    SolaceDisconnect(connectionName);
+    RedisModule_ReplyWithSimpleString(ctx, "PASS");
+    return REDISMODULE_OK;
+}
+
+/*
+ * SOLACE.SEND <name> <topic> <message>
+ * Sends <message> via solace to topic <topic> with connection <name>
+ */
+int SolaceSendCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
+{
+    if (argc < 4)
+    {
+        return RedisModule_WrongArity(ctx);
+    }
+    RedisModule_AutoMemory(ctx);
+    char *parsedArray[argc - 1];
+    ParseModuleArgsAsStrings(argv, argc, parsedArray);
+
+    char *connectionName = parsedArray[1];
+    char *topicName = parsedArray[2];
+    char *message = parsedArray[3];
+
+    if (SolaceSend(connectionName, topicName, message) == SOLCLIENT_FAIL)
     {
         RedisModule_ReplyWithError(ctx, "Could not send message to solace");
         return REDISMODULE_ERR;
@@ -192,13 +258,13 @@ int SolaceSendCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 }
 
 /*
-* solace.subscribe <topic> <redis_key_pattern>
-* Subscribes to solace topic <topic> and listens to incoming messages
-* Every incoming message will be stored in redis as string with key <redis_key_pattern>.<>
+* SOLACE.SUBSCRIBE <name> <topic> 
+* Subscribes to solace topic <topic> and listens to incoming messages via connectionn <name>
+* Every incoming message will be stored in redis as string with <incoming_topic> as key and string mesasge payload as value
 */
 int SolaceSubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    if (argc < 2)
+    if (argc < 3)
     {
         return RedisModule_WrongArity(ctx);
     }
@@ -207,15 +273,21 @@ int SolaceSubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     char *parsedArray[argc - 1];
     ParseModuleArgsAsStrings(argv, argc, parsedArray);
 
-    char* topic = parsedArray[0];
-    SolaceSubscribe(topic);
+    char *connectionName = parsedArray[1];
+    char* topic = parsedArray[2];
+
+    SolaceSubscribe(connectionName, topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
 
+/*
+* SOLACE.UNSUBSCRIBE <name> <topic>
+* Unsubscribes from specified solace topic for connection <name>
+*/
 int SolaceUnsubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
 {
-    if (argc < 2)
+    if (argc < 3)
     {
         return RedisModule_WrongArity(ctx);
     }
@@ -223,9 +295,11 @@ int SolaceUnsubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
     RedisModule_AutoMemory(ctx);
     char *parsedArray[argc - 1];
     ParseModuleArgsAsStrings(argv, argc, parsedArray);
-    char* topic = parsedArray[0];
 
-    SolaceUnsubscribe(topic);
+    char *connectionName = parsedArray[1];
+    char* topic = parsedArray[2];
+
+    SolaceUnsubscribe(connectionName, topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
