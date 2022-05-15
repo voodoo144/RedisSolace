@@ -1,9 +1,7 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make -C ./src/redissolace
 # make[1]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
- 
 make -C ../rmutil
- 
 # make[2]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
@@ -12,7 +10,7 @@ make -C ../rmutil
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Aug 29 11:47:56 2021
+# Make data base, printed on Sat May 14 20:10:23 2022
 
 # Variables
 
@@ -61,11 +59,11 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -278,13 +276,10 @@ strings.o:
 #  Modification time never checked.
 #  File has not been updated.
 
+ 
 # Not a target:
 util.o:
 #  Implicit rule search has been done.
- 
-make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
-make[1]: *** [Makefile:27: rmutil] Error 2
- 
 #  File does not exist.
 #  File has not been updated.
 
@@ -308,7 +303,7 @@ alloc.o:
 # strcache performance: lookups = 69 / hit rate = 31%
 # hash-table stats:
 # Load=47/8192=1%, Rehash=0, Collisions=1/69=1%
-# Finished Make data base on Sun Aug 29 11:47:56 2021
+# Finished Make data base on Sat May 14 20:10:23 2022
 
 # make[2]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
 # GNU Make 4.2.1
@@ -318,7 +313,7 @@ alloc.o:
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Aug 29 11:47:56 2021
+# Make data base, printed on Sat May 14 20:10:23 2022
 
 # Variables
 
@@ -365,11 +360,11 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -562,10 +557,14 @@ redissolace.so: redissolace.o
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
+ 
+make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
+make[1]: *** [Makefile:27: rmutil] Error 2
+make: *** [Makefile:18: redissolace.so] Error 2
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
- 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -587,12 +586,9 @@ clean:
 # strcache performance: lookups = 28 / hit rate = 42%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=1/28=4%
-# Finished Make data base on Sun Aug 29 11:47:56 2021
+# Finished Make data base on Sat May 14 20:10:23 2022
 
 # make[1]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
- 
-make: *** [Makefile:18: redissolace.so] Error 2
- 
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -600,7 +596,7 @@ make: *** [Makefile:18: redissolace.so] Error 2
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Aug 29 11:47:56 2021
+# Make data base, printed on Sat May 14 20:10:23 2022
 
 # Variables
 
@@ -645,11 +641,11 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-ad337946-8c24-48fc-a36c-cba9fa42f6a0.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -847,6 +843,7 @@ clean: FORCE
 # Load=8/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
+ 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
@@ -857,6 +854,6 @@ clean: FORCE
 # strcache performance: lookups = 32 / hit rate = 40%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=1/32=3%
-# Finished Make data base on Sun Aug 29 11:47:56 2021
+# Finished Make data base on Sat May 14 20:10:23 2022
 
  

@@ -2,8 +2,8 @@ make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace'
 make -C ./src/redissolace
 make[1]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
-make -C ../rmutil
  
+make -C ../rmutil
 make[2]: Entering directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
 gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o util.o util.c
 gcc -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I../redismodule/6.2/   -c -o strings.o strings.c
