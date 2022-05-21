@@ -92,15 +92,15 @@ solClient_returnCode_t SolaceInit()
 }
 
 /* Configure the Session properties. */
-solClient_returnCode_t SolaceConfigure(char *sessionProps[])
+solClient_returnCode_t SolaceConfigure(char *sessionProps[], RedisModuleString *connectionName)
 {
     const char *connectionProps[50] = {0, };
     int propIndex = 0;
-    char *connectionName,*username,*password,*vpnname,*host;
+    char *username,*password,*vpnname,*host;
 
     /* Configure the Session properties. */
     propIndex = 0;
-    connectionName = sessionProps[1];
+
     host = sessionProps[3];
     vpnname = sessionProps[5];
     username = sessionProps[7];
@@ -119,37 +119,51 @@ solClient_returnCode_t SolaceConfigure(char *sessionProps[])
     connectionProps[propIndex++] = password;
 
     connectionProps[propIndex++] = NULL;
-    return solClient_session_create((char **)connectionProps,
+    solClient_opaqueSession_pt session_p;
+    solClient_returnCode_t rc= solClient_session_create((char **)connectionProps,
                                     context_p,
                                     &session_p, &sessionFuncInfo, sizeof(sessionFuncInfo));
+    if(rc==SOLCLIENT_OK){
+        RedisModule_DictSet(sessionsMap, connectionName, session_p);
+    }
 }
 
-solClient_returnCode_t SolaceDisconnect(char *connectionName)
+solClient_returnCode_t SolaceDisconnect(RedisModuleString *connectionName)
 {
-    return solClient_cleanup();
+    int * noKey;
+    solClient_opaqueSession_pt session_p=RedisModule_DictGet(sessionsMap,connectionName,noKey);
+    return solClient_session_disconnect(session_p);
 }
 
-solClient_returnCode_t SolaceUnsubscribe(char *connectionNam, char *topicName)
+solClient_returnCode_t SolaceUnsubscribe(RedisModuleString *connectionName, char *topicName)
 {
+    int * noKey;
+    solClient_opaqueSession_pt session_p=RedisModule_DictGet(sessionsMap,connectionName,noKey);
     return solClient_session_topicUnsubscribeExt(session_p,
                                                  SOLCLIENT_SUBSCRIBE_FLAGS_WAITFORCONFIRM,
                                                  topicName);
 }
 
-solClient_returnCode_t SolaceConnect(char *connectionNam)
+solClient_returnCode_t SolaceConnect(RedisModuleString *connectionName)
 {
+    int * noKey;
+    solClient_opaqueSession_pt session_p=RedisModule_DictGet(sessionsMap,connectionName,noKey);
     return solClient_session_connect(session_p);
 }
 
-solClient_returnCode_t SolaceSubscribe(char *connectionNam, char *topicName)
+solClient_returnCode_t SolaceSubscribe(RedisModuleString *connectionName, char *topicName)
 {
+    int * noKey;
+    solClient_opaqueSession_pt session_p=RedisModule_DictGet(sessionsMap,connectionName,noKey);
     return solClient_session_topicSubscribeExt(session_p,
                                                SOLCLIENT_SUBSCRIBE_FLAGS_WAITFORCONFIRM,
                                                topicName);
 }
 
-solClient_returnCode_t SolaceSend(char *connectionNam, char *topicName, char *message)
+solClient_returnCode_t SolaceSend(RedisModuleString *connectionName, char *topicName, char *message)
 {
+    int * noKey;
+    solClient_opaqueSession_pt session_p=RedisModule_DictGet(sessionsMap,connectionName,noKey);
     solClient_opaqueMsg_pt msg_p = NULL;
     solClient_destination_t destination;
     solClient_msg_alloc ( &msg_p );
@@ -177,8 +191,8 @@ int SolaceConfigureCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     char *parsedArray[argc - 1];
 
     ParseModuleArgsAsStrings(argv, argc, parsedArray);
-
-    if (SolaceConfigure(parsedArray) == SOLCLIENT_FAIL)
+    char * connectionName = parsedArray[1];
+    if (SolaceConfigure(parsedArray, RedisModule_CreateString(ctx, connectionName, strlen(connectionName))) == SOLCLIENT_FAIL)
     {
         RedisModule_ReplyWithError(ctx, "Could not configure solace connector");
         return REDISMODULE_ERR;
@@ -204,7 +218,7 @@ int SolaceConnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc
 
     char *connectionName = parsedArray[1];
 
-    SolaceConnect(connectionName);
+    SolaceConnect(RedisModule_CreateString(ctx, connectionName, strlen(connectionName)));
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
@@ -225,7 +239,7 @@ int SolaceDisconnectCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int a
 
     char *connectionName = parsedArray[1];
 
-    SolaceDisconnect(connectionName);
+    SolaceDisconnect(RedisModule_CreateString(ctx, connectionName, strlen(connectionName)));
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
@@ -248,7 +262,7 @@ int SolaceSendCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc)
     char *topicName = parsedArray[2];
     char *message = parsedArray[3];
 
-    if (SolaceSend(connectionName, topicName, message) == SOLCLIENT_FAIL)
+    if (SolaceSend(RedisModule_CreateString(ctx, connectionName, strlen(connectionName)), topicName, message) == SOLCLIENT_FAIL)
     {
         RedisModule_ReplyWithError(ctx, "Could not send message to solace");
         return REDISMODULE_ERR;
@@ -276,7 +290,7 @@ int SolaceSubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int ar
     char *connectionName = parsedArray[1];
     char* topic = parsedArray[2];
 
-    SolaceSubscribe(connectionName, topic);
+    SolaceSubscribe(RedisModule_CreateString(ctx, connectionName, strlen(connectionName)), topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
@@ -299,7 +313,7 @@ int SolaceUnsubscribeCommand(RedisModuleCtx *ctx, RedisModuleString **argv, int 
     char *connectionName = parsedArray[1];
     char* topic = parsedArray[2];
 
-    SolaceUnsubscribe(connectionName, topic);
+    SolaceUnsubscribe(RedisModule_CreateString(ctx, connectionName, strlen(connectionName)), topic);
     RedisModule_ReplyWithSimpleString(ctx, "PASS");
     return REDISMODULE_OK;
 }
@@ -333,5 +347,7 @@ int RedisModule_OnLoad(RedisModuleCtx *ctx)
     RMUtil_RegisterWriteCmd(ctx, SOLACE_SUBSCRIBE_COMMAND, SolaceSubscribeCommand);
     // Solace unsubscribe
     RMUtil_RegisterWriteCmd(ctx, SOLACE_UNSUBSCRIBE_COMMAND, SolaceUnsubscribeCommand);
+    // Dict of active solace connections
+    sessionsMap = RedisModule_CreateDict(NULL);
     return REDISMODULE_OK;
 }
