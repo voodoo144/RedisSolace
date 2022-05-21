@@ -10,7 +10,7 @@ make -C ../rmutil
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat May 14 20:10:23 2022
+# Make data base, printed on Fri May 20 09:57:37 2022
 
 # Variables
 
@@ -19,11 +19,9 @@ make -C ../rmutil
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up
+WSLENV = VSCODE_WSL_EXT_LOCATION/up:VSCODE_SERVER_TAR/up
 # default
 .SHELLFLAGS := -c
-# environment
-VSCODE_AGENT_FOLDER = /home/voodoo144/.vscode-server
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -39,7 +37,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/node
+_ = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/node
 # makefile (from 'Makefile', line 7)
 CFLAGS = -g -fPIC -O3 -std=gnu99 -Wall -Wno-unused-function -I$(RM_INCLUDE_DIR)
 # makefile (from 'Makefile', line 1)
@@ -59,11 +57,13 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-249ee831-4f8e-4161-b1d2-2ebaff5890c8.sock
+# environment
+VSCODE_SERVER_TAR = /mnt/c/Users/Admin/AppData/Local/Temp/vscode-remote-wsl/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/vscode-server-stable-linux-x64.tar.gz
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -77,9 +77,9 @@ PWD = /home/voodoo144/VSCODEPROJECTS/RedisSolace
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/13_interop
+WSL_INTEROP = /run/WSL/15_interop
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/voodoo144
 # environment
@@ -111,7 +111,7 @@ NAME = DESKTOP-4STVP9K
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.58.2
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
 # default
 MAKE_COMMAND := make
 # default
@@ -128,6 +128,8 @@ MFLAGS = -pqrRw
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
+# environment
+VSCODE_HANDLES_SIGPIPE = true
 # makefile (from 'Makefile', line 3)
 RM_INCLUDE_DIR = ../redismodule/6.2/
 # default
@@ -144,8 +146,6 @@ HOSTTYPE = x86_64
 SUFFIXES := 
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
-# environment
-VSCODE_INJECT_NODE_MODULE_LOOKUP_PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/remote/node_modules
 # default
 .RECIPEPREFIX := 
 # environment
@@ -195,6 +195,9 @@ librmutil.a: util.o strings.o sds.o vector.o alloc.o periodic.o
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 18):
 	ar rcs $@ $^
+ 
+make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
+
 
 # Not a target:
 Makefile:
@@ -276,7 +279,6 @@ strings.o:
 #  Modification time never checked.
 #  File has not been updated.
 
- 
 # Not a target:
 util.o:
 #  Implicit rule search has been done.
@@ -303,7 +305,7 @@ alloc.o:
 # strcache performance: lookups = 69 / hit rate = 31%
 # hash-table stats:
 # Load=47/8192=1%, Rehash=0, Collisions=1/69=1%
-# Finished Make data base on Sat May 14 20:10:23 2022
+# Finished Make data base on Fri May 20 09:57:37 2022
 
 # make[2]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/rmutil'
 # GNU Make 4.2.1
@@ -313,7 +315,7 @@ alloc.o:
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat May 14 20:10:23 2022
+# Make data base, printed on Fri May 20 09:57:37 2022
 
 # Variables
 
@@ -322,11 +324,9 @@ alloc.o:
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up
+WSLENV = VSCODE_WSL_EXT_LOCATION/up:VSCODE_SERVER_TAR/up
 # default
 .SHELLFLAGS := -c
-# environment
-VSCODE_AGENT_FOLDER = /home/voodoo144/.vscode-server
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -342,7 +342,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/node
+_ = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/node
 # makefile (from 'Makefile', line 21)
 CFLAGS = -I$(RM_INCLUDE_DIR) -Wall -g -fPIC -lc -lm -std=gnu99  
 # makefile (from 'Makefile', line 1)
@@ -360,11 +360,13 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-249ee831-4f8e-4161-b1d2-2ebaff5890c8.sock
+# environment
+VSCODE_SERVER_TAR = /mnt/c/Users/Admin/AppData/Local/Temp/vscode-remote-wsl/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/vscode-server-stable-linux-x64.tar.gz
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -384,9 +386,9 @@ PWD = /home/voodoo144/VSCODEPROJECTS/RedisSolace
 # makefile (from 'Makefile', line 11)
 uname_S := Linux
 # environment
-WSL_INTEROP = /run/WSL/13_interop
+WSL_INTEROP = /run/WSL/15_interop
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/voodoo144
 # environment
@@ -418,7 +420,7 @@ NAME = DESKTOP-4STVP9K
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.58.2
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
 # default
 MAKE_COMMAND := make
 # default
@@ -435,6 +437,8 @@ MFLAGS = -pqrRw
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
+# environment
+VSCODE_HANDLES_SIGPIPE = true
 # makefile (from 'Makefile', line 3)
 RM_INCLUDE_DIR = ../redismodule/6.2/
 # 'override' directive
@@ -455,8 +459,6 @@ SHOBJ_CFLAGS = -fno-common -g -ggdb
 SUFFIXES := 
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
-# environment
-VSCODE_INJECT_NODE_MODULE_LOOKUP_PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/remote/node_modules
 # default
 .RECIPEPREFIX := 
 # environment
@@ -474,6 +476,7 @@ MOTD_SHOWN = update-motd
 
 # Pattern-specific Variable Values
 
+ 
 # No pattern-specific variable values.
 
 # Directories
@@ -557,11 +560,6 @@ redissolace.so: redissolace.o
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
- 
-make[2]: *** No rule to make target 'util.o', needed by 'librmutil.a'.  Stop.
-make[1]: *** [Makefile:27: rmutil] Error 2
-make: *** [Makefile:18: redissolace.so] Error 2
- 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -586,9 +584,12 @@ clean:
 # strcache performance: lookups = 28 / hit rate = 42%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=1/28=4%
-# Finished Make data base on Sat May 14 20:10:23 2022
+# Finished Make data base on Fri May 20 09:57:37 2022
 
 # make[1]: Leaving directory '/home/voodoo144/VSCODEPROJECTS/RedisSolace/src/redissolace'
+ 
+make[1]: *** [Makefile:27: rmutil] Error 2
+
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -596,7 +597,7 @@ clean:
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat May 14 20:10:23 2022
+# Make data base, printed on Fri May 20 09:57:37 2022
 
 # Variables
 
@@ -605,11 +606,9 @@ clean:
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up
+WSLENV = VSCODE_WSL_EXT_LOCATION/up:VSCODE_SERVER_TAR/up
 # default
 .SHELLFLAGS := -c
-# environment
-VSCODE_AGENT_FOLDER = /home/voodoo144/.vscode-server
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -625,7 +624,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/node
+_ = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/node
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # 'override' directive
@@ -641,11 +640,13 @@ VSCODE_CWD = /mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/voodoo144/.vscode-server/bin/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Users/Admin/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Admin/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2dba4019-192a-44f5-a986-d6d634a9ee26.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-249ee831-4f8e-4161-b1d2-2ebaff5890c8.sock
+# environment
+VSCODE_SERVER_TAR = /mnt/c/Users/Admin/AppData/Local/Temp/vscode-remote-wsl/da15b6fd3ef856477bf6f4fb29ba1b7af717770d/vscode-server-stable-linux-x64.tar.gz
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -661,9 +662,9 @@ PWD = /home/voodoo144/VSCODEPROJECTS/RedisSolace
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/13_interop
+WSL_INTEROP = /run/WSL/15_interop
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 HOME = /home/voodoo144
 # environment
@@ -695,7 +696,7 @@ NAME = DESKTOP-4STVP9K
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.58.2
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Admin/.vscode/extensions/ms-vscode-remote.remote-wsl-0.66.3
 # default
 MAKE_COMMAND := make
 # default
@@ -712,6 +713,8 @@ MFLAGS = -pqrR
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
+# environment
+VSCODE_HANDLES_SIGPIPE = true
 # makefile (from 'Makefile', line 3)
 RM_INCLUDE_DIR = src/redismodule/6.2/
 # default
@@ -730,8 +733,6 @@ HOSTTYPE = x86_64
 SUFFIXES := 
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
-# environment
-VSCODE_INJECT_NODE_MODULE_LOOKUP_PATH = /home/voodoo144/.vscode-server/bin/3866c3553be8b268c8a7f8c0482c0c0177aa8bfa/remote/node_modules
 # default
 .RECIPEPREFIX := 
 # environment
@@ -843,7 +844,6 @@ clean: FORCE
 # Load=8/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
- 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
@@ -854,6 +854,8 @@ clean: FORCE
 # strcache performance: lookups = 32 / hit rate = 40%
 # hash-table stats:
 # Load=19/8192=0%, Rehash=0, Collisions=1/32=3%
-# Finished Make data base on Sat May 14 20:10:23 2022
+# Finished Make data base on Fri May 20 09:57:37 2022
 
  
+make: *** [Makefile:18: redissolace.so] Error 2
+
