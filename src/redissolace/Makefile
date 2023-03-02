@@ -21,15 +21,32 @@ endif
 CFLAGS = -I$(RM_INCLUDE_DIR) -Wall -g -fPIC -lc -lm -std=gnu99  
 CC=gcc
 
+OS_LD_FLAGS :=
+ifeq ($(OS),Windows_NT)
+	@echo "Not supporting builds on Windows"
+	exit 1
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		OS_LD_FLAGS:= -lrmutil -lc
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		OS_LD_FLAGS:= -lrmutil -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib -lSystem
+	endif
+endif
+
 all: rmutil redissolace.so
 
 rmutil: FORCE
 	$(MAKE) -C $(RMUTIL_LIBDIR)
 
 redissolace.so: redissolace.o
-	$(LD) -o $@ redissolace.o $(SHOBJ_LDFLAGS) $(LIBS) -L$(RMUTIL_LIBDIR) -lrmutil -lc 
+	$(LD) -o $@ redissolace.o $(SHOBJ_LDFLAGS) $(LIBS) -L$(RMUTIL_LIBDIR) $(OS_LD_FLAGS)
 
 clean:
 	rm -rf *.xo *.so *.o
+
+done:
+	@echo "All done"
 
 FORCE:
